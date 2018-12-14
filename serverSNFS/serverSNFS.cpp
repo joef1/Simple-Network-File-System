@@ -3,6 +3,7 @@
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 path server_directory;
 
+
 int main(int argc, char* argv[]){
 	if(argc != 5){
 		cout << "Usage is ./serverSNFS -port port# -mount directory" << endl;
@@ -89,20 +90,6 @@ int main(int argc, char* argv[]){
 	}
 	       
 	return 0;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/*
@@ -261,8 +248,6 @@ void * socketThread(void *arg){
 		memset(server_msg, 0, sizeof(server_msg));
   		if(recv(newSocket , client_msg , sizeof(client_msg) , 0) <= 0){
   			cout << "Receive from client failed\n" << endl;
-			cout << newSocket << endl;
-			cout << "HEREREERERERERERER!!!!!!!!!!!" << endl;
 			break;
   		}
   		if(strncmp(client_msg, "readdir ", 8) == 0){
