@@ -69,6 +69,43 @@ int main(int argc, char* argv[]){
 	//Make threads and accept calls to create new sockets for incoming connections
 	pthread_t tid[50];
 	int i = 0;
+	addr_size = sizeof(serverStorage);
+	
+	while ((newSocket = accept(serverSocket, (struct sockaddr *) &serverStorage, &addr_size))
+	{
+		cout << "Server-accept()" << endl;
+		if( pthread_create ( &tid[i], NULL, socketThread, &newSocket) != 0)
+		{
+			cout << "Failed to create new thread" <<endl;	
+			return 1;
+		}
+		
+	}
+	       
+	if (newSocket < 0)
+	{
+		cout << "Server-accept() failed" << endl;
+		return 1;
+	}
+	       
+	return 0;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
 	while(1){
 		addr_size = sizeof(serverStorage);
 		if((newSocket = accept(serverSocket, (struct sockaddr *) &serverStorage, &addr_size)) < 0){
@@ -91,8 +128,127 @@ int main(int argc, char* argv[]){
 		}
 	
 	}
+	*/
 }
-
+	       
+	       
+void get_attr(char* buff, int sock)
+{
+	int holder;
+	struct stat buf1;
+	holder = stat(buff, &buf1);
+	
+	if(holder != 0)
+	{
+		char* msg = "get_attr not found";
+		int msg_len = strlen(msg);
+		cout << "Could not find file or directory" << endl;
+		send(sock, msg, msg_len, 0);
+		return;
+	}
+	else
+	{
+		char* msg = "get_attr success";
+		int msg_len = strlen(msg);
+		send(sock, msg, msg_len, 0);
+	}
+	
+	uid_t uid = getuid();
+	gid_t gid = gitgid();
+	time_t atime = time(NULL);
+	time_t mtime = time(NULL);
+	mode_t mode;
+	off_t size;
+	nlink_t nlink;
+	
+	if(isFile(buff)==0)
+	{
+		struct stat buf2;
+		int holder;
+		holder = stat(buff, &buf2);
+		if(holder == 0)
+		{
+			uid = buf2.st_uid;
+			gid = buf2.st_gid;
+			atime = buf2.st_atim.tv_sec;
+			mtime = buf2.st_mtim.tv_sec;
+			mode = buf2.st_mode;
+			nlink = buf2.st_nlink;	
+		}
+		size = -1;
+	}
+	else
+	{
+		struct stat buf3;
+		int holder;
+		holder = stat(buffer, &buf3);
+		if(holder == 0)
+		{
+			size = buf.st_size;	
+		}
+		else
+		{
+			size = 0;
+		}
+		uid = buf3.st_uid;
+		gid = buf3.st_gid;
+		atime = buf3.st_atim.tv_sec;
+		mtime = buf3.st_mtim.tv_sec;
+		mode = buf3.st_mode;
+		nlink = buf3.st_nlink;
+	}
+	
+	char* msg = gid;
+	int msg_len = strlen(msg);
+	send(sock,msg,msg_len,0);
+	char* gidBuf;
+	read(sock, gidBuf, 10);
+	
+	char* msg = uid;
+	int msg_len = strlen(msg);
+	send(sock,msg,msg_len,0);
+	char* uidBuf;
+	read(sock, uidBuf, 10);
+	
+	char* msg = atime;
+	int msg_len = strlen(msg);
+	send(sock,msg,msg_len,0);
+	char* atimeBuf;
+	read(sock, atimeBuf, 10);
+	
+	char* msg = mtime;
+	int msg_len = strlen(msg);
+	send(sock,msg,msg_len,0);
+	char* mtimeBuf;
+	read(sock, mtimeBuf, 10);
+	
+	char* msg = nlink;
+	int msg_len = strlen(msg);
+	send(sock,msg,msg_len,0);
+	char* nlinkBuf;
+	read(sock, nlinkBuf, 10);
+	
+	char* msg = size;
+	int msg_len = strlen(msg);
+	send(sock,msg,msg_len,0);
+	char* sizeBuf;
+	read(sock, sizeBuf, 10);
+	
+	char* msg = mode;
+	int msg_len = strlen(msg);
+	send(sock,msg,msg_len,0);
+}
+	       
+void read_dir(char* buff, int sock)
+{
+	char* pa;
+	int holder;
+	while(true)
+	{
+		pa[holder] = path[holder]
+			i
+	}
+}
 
 void * socketThread(void *arg){
 	char server_msg[150];
