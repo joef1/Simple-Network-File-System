@@ -105,6 +105,8 @@ void * socketThread(void *arg){
 		memset(server_msg, 0, sizeof(server_msg));
   		if(recv(newSocket , client_msg , sizeof(client_msg) , 0) <= 0){
   			cout << "Receive from client failed\n" << endl;
+			cout << newSocket << endl;
+			cout << "HEREREERERERERERER!!!!!!!!!!!" << endl;
 			break;
   		}
   		if(strncmp(client_msg, "readdir ", 8) == 0){
