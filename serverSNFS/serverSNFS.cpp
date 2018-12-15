@@ -3,6 +3,15 @@
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 path server_directory;
 
+typedef struct t_dNode {
+   DIR* di;
+   int id;
+   struct t_dNode* next;
+
+   char* pth;
+
+} dNode;
+
 
 int main(int argc, char* argv[]){
 	if(argc != 5){
@@ -229,12 +238,45 @@ void get_attr(char* buff, int sock)
 void read_dir(char* buff, int sock)
 {
 	char* pa;
-	int holder;
+	int holder = 0;
 	while(true)
 	{
-		pa[holder] = path[holder]
-			i
+		pa[holder] = path[holder];
+		holder++;
+		if(pa[holder] == '\0')
+			break;
 	}
+	int i = 0;
+	
+	while(true)
+	{
+		pa[holder] = buff[i];
+		holder++;
+		i++;
+		if(buffer[i] == '\0')
+		{
+			pa[holder] = '\0';
+			break;
+		}
+	}
+	
+	char* newBuf;
+	DIR* direct;
+	dNode* ptr;
+	for(ptr = head; ptr != NULL; ptr = ptr->next)
+	{
+		if(strcmp(ptr->pth, pa) == 0)
+			direct = ptr->di;
+	}
+	struct dirent * dp;
+	while((dp = readdir(di)) != NULL)
+	{
+		char* file;
+		
+		if(dp->d_type == DT_REG)
+	}
+	
+	
 }
 
 void * socketThread(void *arg){
